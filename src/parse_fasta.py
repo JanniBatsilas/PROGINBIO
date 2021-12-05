@@ -19,11 +19,13 @@ def map_reads(genomes, sequences):
     print("Reference sequences:")
     nucleotide_frequencies(g_tup[1])
 
-    index = np.where(np.array([i != "" for i in s_tup_clean]))
-    index = index[0]
+    index = np.where(np.array([i != "" for i in s_tup_clean]))[0]
+
     d = {}
     for i in index:
         d[s_tup[0][i]] = {g_tup[0][i]: g_tup[1][i].find(s_tup[1][i])}
+
+    print("Great Success! dict was created...")
     return d
 
 
@@ -31,44 +33,39 @@ def nucleotide_frequencies(mystr):
     concatted = ''.join(mystr)
     leng = len(concatted)
     print("FUNCTION: NUCLEOTIDE FREQUENCIES")
-    print("A: ", round((concatted.count("a") + concatted.count("A"))/leng, 3))
-    print("C: ", round((concatted.count("c") + concatted.count("C"))/leng, 3))
-    print("G: ", round((concatted.count("g") + concatted.count("G"))/leng, 3))
-    print("T: ", round((concatted.count("t") + concatted.count("T"))/leng, 3))
+    print("A: ", round((concatted.count("a") + concatted.count("A"))/leng, 2))
+    print("C: ", round((concatted.count("c") + concatted.count("C"))/leng, 2))
+    print("G: ", round((concatted.count("g") + concatted.count("G"))/leng, 2))
+    print("T: ", round((concatted.count("t") + concatted.count("T"))/leng, 2))
 
 
 def discard_ambiguous_seqs(sequences):
-    print("FUNCTION: DISCARD ABIGUOUS")
+    print("FUNCTION: DISCARD AMBIGUOUS")
     allowed = "ATGCatgc"
-    discarded_list = []
+    only_corect_seqs = []
     for i in range(len(sequences)):
         if all(c in allowed for c in sequences[i]):
-            discarded_list.append(sequences[i].upper())
+            only_corect_seqs.append(sequences[i].upper())
         else:
-            discarded_list.append("")
-    return discarded_list
+            only_corect_seqs.append("")
+    return only_corect_seqs
 
 
 def parse_fasta(inputfile):
     print("FUNCTION: PARSE FASTA Processing in...", str(inputfile)[-22:])
     headers = []
     sequences = []
-    sequence_nr = 0
-    ignore_1 = 0
     string = ""
 
     with open(inputfile, "r", encoding='utf8') as input:
-
         for line in input:
-
             if line[0] == ">":
                 headers.append(line[1:].strip())
-                if ignore_1 == 0:
-                    ignore_1 += 1
+                if len(headers) <= 1:
+                    pass
                 else:
                     sequences.append(string)
                     string = ""
-                    sequence_nr += 1
             else:
                 string = string + line.strip()
 
