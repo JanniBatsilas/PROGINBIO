@@ -6,7 +6,7 @@ sequences.
 
 from pathlib import Path
 import numpy as np
-
+import re
 
 def map_reads(genomes, sequences):
     g_tup = parse_fasta(genomes)
@@ -20,11 +20,13 @@ def map_reads(genomes, sequences):
     nucleotide_frequencies(g_tup[1])
 
     index = np.where(np.array([i != "" for i in s_tup_clean]))[0]
-
     d = {}
     for i in index:
-        d[s_tup[0][i]] = {g_tup[0][i]: g_tup[1][i].find(s_tup[1][i])}
-
+        d[s_tup[0][i]] = {}
+        for j in range(len(s_tup[1])):
+            list = [m.start() + 1 for m in re.finditer(s_tup[1][i], g_tup[1][j])]
+            if len(list) > 0:
+                d[s_tup[0][i]].update({g_tup[0][j]: list})
     print("Great Success! dict was created...")
     return d
 
