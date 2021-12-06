@@ -1,13 +1,12 @@
-
-
 from pathlib import Path
 import numpy as np
 import re
 
-def map_reads(genomes, sequences):
-    """ Reads Fsta-files, discards faulty sequences and maps occurances of substrings
 
-    ap_reads() takes as input two FASTA files, the first containing short read
+def map_reads(sequences: Path, genomes: Path) -> dict:
+    """ Reads FASTA-files, discards faulty sequences and maps occurances of substrings.
+
+    ap_reads() takes as input two FASTA-files, the first containing short read
     sequences ("query"), and the second containing reference sequences. The function reads the files,
     discards query sequences that contain non-DNA characters, prints the nucleotide fractions for both files to
     the console and returns a dictionary of dictionaries, where the outer dictionary uses the names of query
@@ -16,10 +15,11 @@ def map_reads(genomes, sequences):
     sequence occurs as an exact substring.
 
     Args:
-        list_of_sequences (:obj:`tup` of :obj:`list[str]`): Tuple of two list of strings.
+        genomes : TList with reference sequences
+        sequences : List with queries
 
     Returns:
-        d (:obj:`dict` of :obj:`dict` of :obj:`list[int]`): Dict of dicts which contain lists of indices.
+        d : Dict of dicts which contain lists of indices.
     """
 
     g_tup = parse_fasta(genomes)
@@ -44,14 +44,14 @@ def map_reads(genomes, sequences):
     return d
 
 
-def nucleotide_frequencies(list_of_sequences):
+def nucleotide_frequencies(list_of_sequences: [str]):
     """ Counts frequencies and prints them to cmd
 
     nucleotide_frequencies() takes a list of strings as input, and prints out
     the total frequency of each nucleotide across all input sequences.
 
     Args:
-        list_of_sequences (:obj:`list` of :obj:`str`): List of strings
+        list_of_sequences : List of of sequences
 
     Returns:
         None
@@ -59,14 +59,13 @@ def nucleotide_frequencies(list_of_sequences):
 
     concatted = ''.join(list_of_sequences)
     leng = len(concatted)
-    print("FUNCTION: NUCLEOTIDE FREQUENCIES")
-    print("A: ", round((concatted.count("a") + concatted.count("A"))/leng, 2))
-    print("C: ", round((concatted.count("c") + concatted.count("C"))/leng, 2))
-    print("G: ", round((concatted.count("g") + concatted.count("G"))/leng, 2))
-    print("T: ", round((concatted.count("t") + concatted.count("T"))/leng, 2))
+    print("A: ", round((concatted.count("a") + concatted.count("A")) / leng, 2))
+    print("C: ", round((concatted.count("c") + concatted.count("C")) / leng, 2))
+    print("G: ", round((concatted.count("g") + concatted.count("G")) / leng, 2))
+    print("T: ", round((concatted.count("t") + concatted.count("T")) / leng, 2))
 
 
-def discard_ambiguous_seqs(sequences):
+def discard_ambiguous_seqs(sequences: [str]) -> [str]:
     """ Takes list of sequences and returns filtered list of the strings only containing letters (A,C,G,T)
 
     Takes a list of strings as input and returns only those
@@ -74,10 +73,10 @@ def discard_ambiguous_seqs(sequences):
     This method does is not case sensitive.
 
     Args:
-        sequences (:obj:`list` of :obj:`str`): List of DNA sequences
+        sequences : List of DNA sequences
 
     Returns:
-        only_corect_seqs (:obj:`list` of :obj:`str`): Strings consisting only of (A, C, G, T).
+        only_corect_seqs : array consisting only of (A, C, G, T).
     """
 
     print("FUNCTION: DISCARD AMBIGUOUS")
@@ -91,7 +90,7 @@ def discard_ambiguous_seqs(sequences):
     return only_corect_seqs
 
 
-def parse_fasta(infile):
+def parse_fasta(infile: Path) -> ([str], [str]):
     """ Takes Fasta Path and returns contents in lists
 
     parse_fasta() takes a path to a FASTA file as input and returns a tuple of two lists,
@@ -99,11 +98,11 @@ def parse_fasta(infile):
     and the second containing the actual sequences.
 
     Args:
-        infile (path): Path to Fasta-file
+        infile : Path to Fasta-file
 
     Returns:
-        headers (:obj:`list` of :obj:`str`): Sequence headers stripped of the leading >
-        sequences (:obj:`list` of :obj:`str`): Contains the actual sequences
+        headers : Sequence headers stripped of the leading >
+        sequences : Contains the actual sequences
     """
 
     print("FUNCTION: PARSE FASTA Processing in...", str(infile)[-22:])
@@ -129,15 +128,19 @@ def parse_fasta(infile):
 
 if __name__ == '__main__':
 
+
     #    A 1.1    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    path1 = r"C:\Users\Janni Batsilas\Dropbox\Dokumente\01_UNI\0_Programming_in_Bio\RNA-Sequencing\Test Files\genomefasta.sec"
+    path1 = r"C:\Users\janni\Dropbox\Dokumente\01_UNI\0_Programming_in_Bio\RNA-Sequencing\Test Files\genomefasta.sec"
+    # path1 = r"C:\Users\Janni Batsilas\Dropbox\Dokumente\01_UNI\0_Programming_in_Bio\RNA-Sequencing\Test Files\genomefasta.sec"
     genomes = Path(path1)
     tup = parse_fasta(genomes)
 
     #    A 1.2    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    path2 = r"C:\Users\Janni Batsilas\Dropbox\Dokumente\01_UNI\0_Programming_in_Bio\RNA-Sequencing\Test Files\sequencesfasta.sec"
+    path2 = r"C:\Users\janni\Dropbox\Dokumente\01_UNI\0_Programming_in_Bio\RNA-Sequencing\Test Files\sequencesfasta.sec"
+    # path2 = r"C:\Users\Janni Batsilas\Dropbox\Dokumente\01_UNI\0_Programming_in_Bio\RNA-Sequencing\Test Files\sequencesfasta.sec"
     sequences = Path(path2)
     tup = parse_fasta(sequences)
+    print(tup)
 
     #    A 1.3    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     seqs = tup[1]
@@ -145,4 +148,4 @@ if __name__ == '__main__':
     nucleotide_frequencies(clean)
 
     #    A 1.4    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    print(map_reads(path1, path2))
+    print(map_reads(path2, path1))
