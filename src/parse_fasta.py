@@ -1,14 +1,27 @@
-"""
-parse_fasta() takes a path to a FASTA file as input and returns a tuple of two lists,
-the first containing sequence headers stripped of the leading >, and the second containing the actual
-sequences.
-"""
+
 
 from pathlib import Path
 import numpy as np
 import re
 
 def map_reads(genomes, sequences):
+    """ Reads Fsta-files, discards faulty sequences and maps occurances of substrings
+
+    ap_reads() takes as input two FASTA files, the first containing short read
+    sequences ("query"), and the second containing reference sequences. The function reads the files,
+    discards query sequences that contain non-DNA characters, prints the nucleotide fractions for both files to
+    the console and returns a dictionary of dictionaries, where the outer dictionary uses the names of query
+    sequences as its keys, and the inner dictionary uses reference sequence names as keys and a list of 1-based
+    indices indicating at which position (counting from left to right) in the reference sequence the query
+    sequence occurs as an exact substring.
+
+    Args:
+        list_of_sequences (:obj:`tup` of :obj:`list[str]`): Tuple of two list of strings.
+
+    Returns:
+        d (:obj:`dict` of :obj:`dict` of :obj:`list[int]`): Dict of dicts which contain lists of indices.
+    """
+
     g_tup = parse_fasta(genomes)
     s_tup = parse_fasta(sequences)
     s_tup_clean = discard_ambiguous_seqs(s_tup[1])
@@ -31,8 +44,20 @@ def map_reads(genomes, sequences):
     return d
 
 
-def nucleotide_frequencies(mystr):
-    concatted = ''.join(mystr)
+def nucleotide_frequencies(list_of_sequences):
+    """ Counts frequencies and prints them to cmd
+
+    nucleotide_frequencies() takes a list of strings as input, and prints out
+    the total frequency of each nucleotide across all input sequences.
+
+    Args:
+        list_of_sequences (:obj:`list` of :obj:`str`): List of strings
+
+    Returns:
+        None
+    """
+
+    concatted = ''.join(list_of_sequences)
     leng = len(concatted)
     print("FUNCTION: NUCLEOTIDE FREQUENCIES")
     print("A: ", round((concatted.count("a") + concatted.count("A"))/leng, 2))
@@ -42,6 +67,19 @@ def nucleotide_frequencies(mystr):
 
 
 def discard_ambiguous_seqs(sequences):
+    """ Takes list of sequences and returns filtered list of the strings only containing letters (A,C,G,T)
+
+    Takes a list of strings as input and returns only those
+    strings that exclusively consist of letters of the "DNA alphabet" (A, C, G, T).
+    This method does is not case sensitive.
+
+    Args:
+        sequences (:obj:`list` of :obj:`str`): List of DNA sequences
+
+    Returns:
+        only_corect_seqs (:obj:`list` of :obj:`str`): Strings consisting only of (A, C, G, T).
+    """
+
     print("FUNCTION: DISCARD AMBIGUOUS")
     allowed = "ATGCatgc"
     only_corect_seqs = []
@@ -53,13 +91,27 @@ def discard_ambiguous_seqs(sequences):
     return only_corect_seqs
 
 
-def parse_fasta(inputfile):
-    print("FUNCTION: PARSE FASTA Processing in...", str(inputfile)[-22:])
+def parse_fasta(infile):
+    """ Takes Fasta Path and returns contents in lists
+
+    parse_fasta() takes a path to a FASTA file as input and returns a tuple of two lists,
+    the first containing sequence headers stripped of the leading >,
+    and the second containing the actual sequences.
+
+    Args:
+        infile (path): Path to Fasta-file
+
+    Returns:
+        headers (:obj:`list` of :obj:`str`): Sequence headers stripped of the leading >
+        sequences (:obj:`list` of :obj:`str`): Contains the actual sequences
+    """
+
+    print("FUNCTION: PARSE FASTA Processing in...", str(infile)[-22:])
     headers = []
     sequences = []
     string = ""
 
-    with open(inputfile, "r", encoding='utf8') as input:
+    with open(infile, "r", encoding='utf8') as input:
         for line in input:
             if line[0] == ">":
                 headers.append(line[1:].strip())
