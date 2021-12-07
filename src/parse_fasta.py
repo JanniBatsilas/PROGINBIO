@@ -2,6 +2,10 @@ from pathlib import Path
 import numpy as np
 import re
 
+""" 
+This script parses FASA files
+"""
+
 
 def map_reads(sequences: Path, genomes: Path) -> dict:
     """ Reads FASTA-files, discards faulty sequences and maps occurances of substrings.
@@ -128,28 +132,3 @@ def parse_fasta(infile: Path) -> ([str], [str]):
 
     sequences.append(string)
     return headers, sequences
-
-
-if __name__ == '__main__':
-
-
-    #    A 1.1    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    path1 = r"C:\Users\janni\Dropbox\Dokumente\01_UNI\0_Programming_in_Bio\RNA-Sequencing\Test Files\genomefasta.sec"
-    # path1 = r"C:\Users\Janni Batsilas\Dropbox\Dokumente\01_UNI\0_Programming_in_Bio\RNA-Sequencing\Test Files\genomefasta.sec"
-    genomes = Path(path1)
-    tup = parse_fasta(genomes)
-
-    #    A 1.2    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    path2 = r"C:\Users\janni\Dropbox\Dokumente\01_UNI\0_Programming_in_Bio\RNA-Sequencing\Test Files\sequencesfasta.sec"
-    # path2 = r"C:\Users\Janni Batsilas\Dropbox\Dokumente\01_UNI\0_Programming_in_Bio\RNA-Sequencing\Test Files\sequencesfasta.sec"
-    sequences = Path(path2)
-    tup = parse_fasta(sequences)
-    print(tup)
-
-    #    A 1.3    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    seqs = tup[1]
-    clean = discard_ambiguous_seqs(seqs)
-    nucleotide_frequencies(clean)
-
-    #    A 1.4    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-    print(map_reads(path2, path1))

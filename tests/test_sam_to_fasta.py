@@ -3,6 +3,10 @@ from pathlib import Path
 import os
 from src.sam_to_fasta import sam_to_fasta
 
+"""
+This script is to test the functionalities of sam_to_fasta.py
+"""
+
 
 def test_sam_to_fasta():
     """ Tests if sam_to_fasta gives correct output with given test file """

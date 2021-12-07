@@ -8,6 +8,10 @@ from src.parse_fasta import discard_ambiguous_seqs
 from src.parse_fasta import nucleotide_frequencies
 from src.parse_fasta import map_reads
 
+"""
+This script is to test the functionalities of parse_fasta.py
+"""
+
 
 def test_read_file_corectly_parse_fasta():
     """ Tests if FASTA-files are correctly parsed """
