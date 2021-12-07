@@ -1,11 +1,12 @@
 # imports
-
 from pathlib import Path
 import os
 from src.sam_to_fasta import sam_to_fasta
 
 
 def test_sam_to_fasta():
+    """ Tests if sam_to_fasta gives correct output with given test file """
+
     script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
     rel_path = "files_for_testing\sam_test.sam"
     abs_file_path = os.path.join(script_dir, rel_path)

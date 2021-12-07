@@ -1,23 +1,23 @@
 import os
 from pathlib import Path
-from src import parse_fasta
+import parse_fasta
 
 
 def sam_to_fasta(infile: Path):
     """ converts a SAM file to a FASTA file
 
-    This function takes the path to a SAM-file (Output of star-aligner) and produces a fasta file from it
+    This function takes the path to a SAM-file (Output of star-aligner) and produces a fasta file from it.
 
     Args:
         infile : Path to SAM-File
 
-    Returns:
-        None
+    Produces:
+        Was_once_a_sam.fa : FASTA file produced from SAM-file
     """
     outfile = "Was_once_a_sam.fa"
     with open(outfile, "w", encoding='utf8') as output:
-        with open(infile, "r", encoding='utf8') as input:
-            for line in input:
+        with open(infile, "r", encoding='utf8') as inp:
+            for line in inp:
                 if line[0] != "@":
                     try:
                         list_line = line.split("\t")

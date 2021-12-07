@@ -10,6 +10,7 @@ from src.parse_fasta import map_reads
 
 
 def test_read_file_corectly_parse_fasta():
+    """ Tests if FASTA-files are correctly parsed """
 
     script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
     rel_path = "files_for_testing\sequencesfasta_test.sec"
@@ -28,6 +29,8 @@ def test_read_file_corectly_parse_fasta():
 
 
 def test_wrong_input_parse_fasta():
+    """ Tests wrong inputs to parse_fasta() """
+
     with pytest.raises(OSError):  # and we make sure that Python complains if we give integer instead of Path
         tup = parse_fasta(65)
     with pytest.raises(OSError):  # and we make sure that Python complains if we give integer instead of Path
@@ -37,17 +40,23 @@ def test_wrong_input_parse_fasta():
 
 
 def test_discard_ambiguous_seqs():
+    """ Tests if werong sequences are deleted when passed to discard_ambiguous_seqs()"""
+
     seq = discard_ambiguous_seqs(["ATGC", "ADGC", "GCAT", "ThE Cat LiKes Fish", "aTgC"])
     assert seq == ["ATGC", "", "GCAT", "", "ATGC"]
 
 
 def test_nucleotide_frequencies(capfd):
+    """ Test if print of nucleotide_frequencies is correct """
+
     freqs = nucleotide_frequencies(["AAA", "TTT", "GGG", "CC"])
     out, err = capfd.readouterr()
     assert "".join(out.replace('\n', "").replace(' ', "")) == "A: 0.27 C: 0.18 G: 0.27 T: 0.27".replace(" ", "")
 
 
 def test_map_reads():
+    """ Tests if map_read() finds sequences at correct index """
+
     script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
     rel_path1 = "files_for_testing\sequencesfasta_test.sec"
     query = os.path.join(script_dir, rel_path1)
