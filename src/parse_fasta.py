@@ -132,3 +132,28 @@ def parse_fasta(infile: Path) -> ([str], [str]):
 
     sequences.append(string)
     return headers, sequences
+
+
+
+if __name__ == '__main__':
+
+
+    #    A 1.1    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    path1 = r"genomefasta.sec"
+    genomes = Path(path1)
+    tup = parse_fasta(genomes)
+    print(tup)
+
+    #    A 1.2    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    path2 = r"sequencesfasta.sec"
+    sequences = Path(path2)
+    tup = parse_fasta(sequences)
+    print(tup)
+
+    #    A 1.3    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    seqs = tup[1]
+    clean = discard_ambiguous_seqs(seqs)
+    nucleotide_frequencies(clean)
+
+    #    A 1.4    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+    print(map_reads(path2, path1))

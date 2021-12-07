@@ -1,12 +1,13 @@
 import os
 from pathlib import Path
-import parse_fasta
+from src import parse_fasta
+# import parse_fasta
 
 
 def sam_to_fasta(infile: Path):
     """ converts a SAM file to a FASTA file
 
-    This function takes the path to a SAM-file (Output of star-aligner) and produces a fasta file from it.
+    This function takes the path to a SAM-file (Output of star-aligner) and produces a FASTA file from it.
 
     Args:
         infile : Path to SAM-File

@@ -25,3 +25,6 @@ def test_sam_to_fasta():
     assert temp_list[2][1:9] == "NS500637"
     assert temp_list[4][1:9] == "NS500637"
 
+
+if __name__ == '__main__':
+    test_sam_to_fasta()

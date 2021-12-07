@@ -75,3 +75,9 @@ def test_map_reads():
     assert mapped_dict['sequence4']['chr4'] == [1455]
 
 
+if __name__ == '__main__':
+    test_map_reads()
+    test_nucleotide_frequencies()
+    test_discard_ambiguous_seqs()
+    test_wrong_input_parse_fasta()
+    test_read_file_corectly_parse_fasta()
