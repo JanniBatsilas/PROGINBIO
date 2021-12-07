@@ -1,12 +1,12 @@
 # imports
 import pytest
+from pathlib import Path
+import os
 
 from src.parse_fasta import parse_fasta
 from src.parse_fasta import discard_ambiguous_seqs
 from src.parse_fasta import nucleotide_frequencies
 from src.parse_fasta import map_reads
-from pathlib import Path
-import os
 
 
 def test_read_file_corectly_parse_fasta():

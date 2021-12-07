@@ -1,6 +1,6 @@
 import os
 from pathlib import Path
-import parse_fasta
+from src import parse_fasta
 
 
 def sam_to_fasta(infile: Path):
@@ -19,9 +19,13 @@ def sam_to_fasta(infile: Path):
         with open(infile, "r", encoding='utf8') as input:
             for line in input:
                 if line[0] != "@":
-                    list_line = line.split("\t")
-                    output.write(">" + list_line[0] + "\n")
-                    output.write(list_line[9] + "\n")
+                    try:
+                        list_line = line.split("\t")
+                        if list_line[9][0] == "A" or list_line[9][0] == "T" or list_line[9][0] == "G" or list_line[9][0] == "C":
+                            output.write(">" + list_line[0] + "\n")
+                            output.write(list_line[9] + "\n")
+                    except IndexError:
+                        print("Defect Line in SAM-File detected")
 
 
 if __name__ == '__main__':
@@ -31,5 +35,11 @@ if __name__ == '__main__':
     rel_path = "/Aligned.out.sam"
     abs_file_path = script_dir + rel_path
     sam_to_fasta(Path(abs_file_path))
+
+    queries = script_dir + "/Was_once_a_sam.fa"
+    gene = script_dir + "/Mus_musculus.GRCm38.dna_rm.chr19.fa"
+    dic = parse_fasta.map_reads(Path(queries), Path(gene))
+    print(dic)
+
 
 

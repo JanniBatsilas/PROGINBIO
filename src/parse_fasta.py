@@ -36,7 +36,7 @@ def map_reads(sequences: Path, genomes: Path) -> dict:
     d = {}
     for i in index:
         d[s_tup[0][i]] = {}
-        for j in range(len(s_tup[1])):
+        for j in range(len(g_tup[1])):
             list = [m.start() + 1 for m in re.finditer(s_tup[1][i].upper(), g_tup[1][j])]
             if len(list) > 0:
                 d[s_tup[0][i]].update({g_tup[0][j]: list})
@@ -58,11 +58,15 @@ def nucleotide_frequencies(list_of_sequences: [str]):
     """
 
     concatted = ''.join(list_of_sequences)
-    leng = len(concatted)
-    print("A: ", round((concatted.count("a") + concatted.count("A")) / leng, 2))
-    print("C: ", round((concatted.count("c") + concatted.count("C")) / leng, 2))
-    print("G: ", round((concatted.count("g") + concatted.count("G")) / leng, 2))
-    print("T: ", round((concatted.count("t") + concatted.count("T")) / leng, 2))
+    a = concatted.count("a") + concatted.count("A")
+    c = concatted.count("c") + concatted.count("C")
+    g = concatted.count("g") + concatted.count("G")
+    t = concatted.count("t") + concatted.count("T")
+    atgc = a+c+g+t
+    print("A: ", round(a / atgc, 2))
+    print("C: ", round(c / atgc, 2))
+    print("G: ", round(g / atgc, 2))
+    print("T: ", round(t / atgc, 2))
 
 
 def discard_ambiguous_seqs(sequences: [str]) -> [str]:
