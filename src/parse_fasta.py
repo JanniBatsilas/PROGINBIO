@@ -157,3 +157,6 @@ if __name__ == '__main__':
 
     #    A 1.4    # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
     print(map_reads(path2, path1))
+
+    # It can be seen that sequence 4 occurs way more than the other sequences, this is because it is shorter than
+    # all other sequences. Hence it has a higher probability to occur.
