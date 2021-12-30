@@ -17,7 +17,7 @@ def test_read_file_corectly_parse_fasta():
     """ Tests if FASTA-files are correctly parsed """
 
     script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
-    rel_path = "files_for_testing\sequencesfasta_test.sec"
+    rel_path = "files_for_testing/sequencesfasta_test.sec"
     abs_file_path = os.path.join(script_dir, rel_path)
 
     tup = parse_fasta(Path(abs_file_path))
@@ -62,9 +62,9 @@ def test_map_reads():
     """ Tests if map_read() finds sequences at correct index """
 
     script_dir = os.path.dirname(__file__)  # <-- absolute dir the script is in
-    rel_path1 = "files_for_testing\sequencesfasta_test.sec"
+    rel_path1 = "files_for_testing/sequencesfasta_test.sec"
     query = os.path.join(script_dir, rel_path1)
-    rel_path2 = "files_for_testing\genomefasta_test.sec"
+    rel_path2 = "files_for_testing/genomefasta_test.sec"
     ref_seqs = os.path.join(script_dir, rel_path2)
 
     mapped_dict = map_reads(query, ref_seqs)
@@ -73,11 +73,3 @@ def test_map_reads():
     assert mapped_dict['sequence4']['chr2'] == [1039]
     assert mapped_dict['sequence4']['chr3'] == [1422]
     assert mapped_dict['sequence4']['chr4'] == [1455]
-
-
-if __name__ == '__main__':
-    test_map_reads()
-    test_nucleotide_frequencies()
-    test_discard_ambiguous_seqs()
-    test_wrong_input_parse_fasta()
-    test_read_file_corectly_parse_fasta()

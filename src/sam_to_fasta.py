@@ -12,10 +12,10 @@ def sam_to_fasta(infile: Path):
     Args:
         infile : Path to SAM-File
 
-    Produces:
+    Returns:
         Was_once_a_sam.fa : FASTA file produced from SAM-file
     """
-    outfile = "Was_once_a_sam.fa"
+    outfile = Path(__file__).parents[1] / "results/was_once_a_sam.fa"
     with open(outfile, "w", encoding='utf8') as output:
         with open(infile, "r", encoding='utf8') as inp:
             for line in inp:

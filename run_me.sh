@@ -1,5 +1,5 @@
 #!/bin/bash
 
-python test_parse_fasta.py
-python test_sam_to_fasta.py
-python execute_tasks.py
+python src/execute_tasks.py
+flake8 src/
+coverage run --source src/ -m pytest && coverage report -m
